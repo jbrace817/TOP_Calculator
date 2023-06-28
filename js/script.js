@@ -1,24 +1,36 @@
 //display
 const displayDiv = document.getElementsByClassName("display")[0];
-displayDiv.style.font;
 let display = 0;
 displayDiv.textContent = display;
+let num1;
 
-//buttons
+//Number buttons
 const buttons = document.querySelectorAll(".button");
+const numbers = document.querySelector(".numbers");
+
 buttons.forEach((button) =>
   button.addEventListener("click", (e) => {
-    if (display === 0) {
+    let pressed = e.target.innerText;
+    let toNum = parseFloat(pressed);
+    display = toNum;
+    if (displayDiv.innerHTML === "0") {
       displayDiv.textContent = "";
     }
-    if (displayDiv.textContent.length < 9) {
-      let pressed = e.target.innerText;
-      display = parseFloat(pressed);
-      displayDiv.textContent += display;
-      console.log(typeof parseFloat(display));
+    if (
+      displayDiv.textContent.length < 9 &&
+      button.classList.contains("numbers")
+    ) {
+      console.log();
+      num1 = displayDiv.textContent += display;
+      if (button.classList.contains("operator")) {
+      }
     }
+    console.log(num1);
+    console.log(button.textContent);
   })
 );
+
+function operate(num1, num2, operator) {}
 
 //Functions for basic math operators
 
