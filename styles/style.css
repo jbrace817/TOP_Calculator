@@ -52,4 +52,5 @@ body {
   background-color: white;
   text-align: center;
   font-size: 5rem;
+  user-select: none;
 }

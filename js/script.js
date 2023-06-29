@@ -1,36 +1,79 @@
 //display
-const displayDiv = document.getElementsByClassName("display")[0];
-let display = 0;
-displayDiv.textContent = display;
-let num1;
+let displayDiv = document.getElementsByClassName("display")[0];
+let array = [];
+// let num1;
+// let num2;
+let dNumber = 0;
+let sign = null;
 
 //Number buttons
 const buttons = document.querySelectorAll(".button");
-const numbers = document.querySelector(".numbers");
+const numbers = document.querySelectorAll(".numbers");
+const symbols = document.querySelectorAll(".operator");
+const equals = document.querySelector(".equals");
 
-buttons.forEach((button) =>
-  button.addEventListener("click", (e) => {
-    let pressed = e.target.innerText;
-    let toNum = parseFloat(pressed);
-    display = toNum;
-    if (displayDiv.innerHTML === "0") {
-      displayDiv.textContent = "";
-    }
-    if (
-      displayDiv.textContent.length < 9 &&
-      button.classList.contains("numbers")
-    ) {
-      console.log();
-      num1 = displayDiv.textContent += display;
-      if (button.classList.contains("operator")) {
+numbers.forEach((number) =>
+  number.addEventListener("click", (e) => {
+    let pressed = e.target.textContent;
+    if (displayDiv.textContent.length < 9) {
+      if (displayDiv.textContent[0] === "0") {
+        displayDiv.textContent = "";
       }
+      if (array.length === 1 && dNumber === "") {
+        displayDiv.textContent = "";
+      }
+      dNumber = displayDiv.textContent += pressed;
+      dNumber = parseFloat(dNumber);
     }
-    console.log(num1);
-    console.log(button.textContent);
   })
 );
 
-function operate(num1, num2, operator) {}
+symbols.forEach((symbol) =>
+  symbol.addEventListener("click", (e) => {
+    let pressed = e.target.textContent;
+
+    if (displayDiv.textContent[0] === "0") {
+      return;
+    }
+    if (array.length <= 1) {
+      sign = pressed;
+      array.push(dNumber);
+      dNumber = "";
+    }
+
+    if (array.length === 2) {
+      dNumber = operate(array[0], array[1], sign);
+      array = [];
+      dNumber = parseFloat(dNumber);
+      array.push(dNumber);
+      displayDiv.textContent = dNumber;
+      dNumber = "";
+    }
+  })
+);
+
+equals.addEventListener("click", () => {
+  array.push(dNumber);
+  dNumber = operate(array[0], array[1], sign);
+  console.log(dNumber);
+  array = [];
+  dNumber = parseFloat(dNumber);
+  array.push(dNumber);
+  displayDiv.textContent = dNumber;
+  dNumber = "";
+});
+
+function operate(num1, num2, op) {
+  const operator = op;
+  switch (operator) {
+    case "+":
+      console.log(add(num1, num2));
+      return add(num1, num2);
+    case "-":
+      console.log(subtract(num1, num2));
+      return subtract(num1, num2);
+  }
+}
 
 //Functions for basic math operators
 
