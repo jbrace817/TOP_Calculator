@@ -49,7 +49,17 @@ equals.addEventListener("click", () => {
   sign = "";
 });
 
-posNeg.addEventListener("click", (e) => {});
+posNeg.addEventListener("click", (e) => {
+  if (temp !== 0) {
+    displayDiv.textContent = displayDiv.textContent * -1;
+    temp = parseFloat(displayDiv.textContent);
+  }
+  if (array.length === 1 && temp == 0) {
+    array.splice(0, 1, array[0] * -1);
+    displayDiv.textContent = displayDiv.textContent * -1;
+    temp = 0;
+  }
+});
 
 function applyOperators() {
   if (!clicked) {
