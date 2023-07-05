@@ -1,11 +1,14 @@
-//display
+//Display
 let displayDiv = document.getElementsByClassName("display")[0];
+
+//Global Variables
 let array = [];
 let numToString;
 let temp = 0;
 let dNumber = 0;
 let sign = null;
 let clicked = false;
+let dot = false;
 
 //Calculator buttons
 const buttons = document.querySelectorAll(".button");
@@ -14,11 +17,16 @@ const symbols = document.querySelectorAll(".operator");
 const equals = document.querySelector(".equals");
 const posNeg = document.querySelector(".posNeg");
 const percent = document.querySelector(".percent");
+const decimal = document.querySelector(".decimal");
+const clear = document.querySelector(".clear");
 
 numbers.forEach((number) =>
   number.addEventListener("click", (e) => {
     let pressed = e.target.textContent;
-    if (displayDiv.textContent[0] === "0") {
+    if (
+      displayDiv.textContent[0] === "0" &&
+      !displayDiv.textContent.includes(".")
+    ) {
       displayDiv.textContent = "";
     }
     if (array.length === 1 && temp === 0) {
@@ -64,6 +72,7 @@ posNeg.addEventListener("click", (e) => {
 });
 
 percent.addEventListener("click", () => {
+  let stringToNum;
   if (temp !== 0) {
     displayDiv.textContent = displayDiv.textContent * 0.01;
     console.log(displayDiv.textContent.length);
@@ -77,10 +86,35 @@ percent.addEventListener("click", () => {
     array.splice(0, 1, temp);
     temp = 0;
   }
-  numToString = parseFloat(displayDiv.textContent);
-  if (displayDiv.textContent.length > 9) {
-    displayDiv.textContent = numToString.toExponential(3);
+  stringToNum = parseFloat(displayDiv.textContent);
+  // if (displayDiv.textContent.length > 9) {
+  //   displayDiv.textContent = stringToNum.toExponential(3);
+  // }
+  expNotation(displayDiv.textContent.length, stringToNum);
+});
+
+decimal.addEventListener("click", () => {
+  if (!displayDiv.textContent.includes(".")) {
+    displayDiv.textContent = displayDiv.textContent + ".";
   }
+  if (clicked) {
+    displayDiv.textContent = "";
+    displayDiv.textContent = displayDiv.textContent + "0.";
+    temp = displayDiv.textContent;
+  }
+  // if (temp !== 0) {
+  //   displayDiv.textContent = displayDiv.textContent + ".";
+  // } else if (displayDiv.textContent[0] === "0") {
+  //   displayDiv.textContent = displayDiv.textContent + ".";
+  // }
+});
+
+clear.addEventListener("click", () => {
+  array = [];
+  numToString = "";
+  temp = 0;
+  dNumber = 0;
+  displayDiv.textContent = "0";
 });
 
 function applyOperators() {
@@ -98,6 +132,12 @@ function applyOperators() {
   }
 }
 
+function expNotation(length, num) {
+  if (length > 9) {
+    displayDiv.textContent = num.toExponential(3);
+  }
+}
+
 //Operate Function
 function operate(num1, num2, op) {
   const operator = op;
@@ -106,6 +146,9 @@ function operate(num1, num2, op) {
     case "+":
       dNumber = add(num1, num2);
       displayDiv.textContent = dNumber;
+      numToString = dNumber.toString();
+      console.log("length: " + numToString.length);
+      expNotation(numToString.length, dNumber);
       array.splice(0, 2, dNumber);
       clicked = false;
       console.log(add(num1, num2));
@@ -113,6 +156,9 @@ function operate(num1, num2, op) {
     case "-":
       dNumber = subtract(num1, num2);
       displayDiv.textContent = dNumber;
+      numToString = dNumber.toString();
+      console.log("length: " + numToString.length);
+      expNotation(numToString.length, dNumber);
       array.splice(0, 2, dNumber);
       console.log(subtract(num1, num2));
       clicked = false;
@@ -123,9 +169,10 @@ function operate(num1, num2, op) {
       displayDiv.textContent = dNumber;
       numToString = dNumber.toString();
       console.log("length: " + numToString.length);
-      if (numToString.length > 9) {
-        displayDiv.textContent = dNumber.toExponential(3);
-      }
+      expNotation(numToString.length, dNumber);
+      // if (numToString.length > 9) {
+      //   displayDiv.textContent = dNumber.toExponential(3);
+      // }
       // dNumber = round(dNumber, 15);
       array.splice(0, 2, dNumber);
       console.log(multiply(num1, num2));
@@ -135,6 +182,9 @@ function operate(num1, num2, op) {
     case "/":
       dNumber = divide(num1, num2);
       displayDiv.textContent = dNumber;
+      numToString = dNumber.toString();
+      console.log("length: " + numToString.length);
+      expNotation(numToString.length, dNumber);
       array.splice(0, 2, dNumber);
       console.log(divide(num1, num2));
       clicked = false;
