@@ -9,6 +9,7 @@ let dNumber = 0;
 let sign = null;
 let clicked = false;
 let dot = false;
+let type;
 
 //Calculator buttons
 const buttons = document.querySelectorAll(".button");
@@ -20,6 +21,11 @@ const percent = document.querySelector(".percent");
 const decimal = document.querySelector(".decimal");
 const clear = document.querySelector(".clear");
 
+window.addEventListener("keydown", function (e) {
+  console.log(e);
+  console.log(e.key);
+});
+
 numbers.forEach((number) =>
   number.addEventListener("click", (e) => {
     let pressed = e.target.textContent;
@@ -29,7 +35,7 @@ numbers.forEach((number) =>
     ) {
       displayDiv.textContent = "";
     }
-    if (array.length === 1 && temp === 0) {
+    if (array.length === 1 && temp === 0 && !dot) {
       displayDiv.textContent = "";
       clicked = false;
     }
@@ -37,10 +43,11 @@ numbers.forEach((number) =>
       array.splice(0, 1);
     }
     temp = displayDiv.textContent += pressed;
-    temp = temp.substring(0, 9);
+    // temp = temp.substring(0, 15);
     // temp = round(temp, 15);
     displayDiv.textContent = temp;
     temp = parseFloat(temp);
+    expNotation(displayDiv.textContent.length, temp);
     clicked = false;
   })
 );
@@ -50,12 +57,14 @@ symbols.forEach((symbol) =>
     let pressed = e.target.textContent;
     applyOperators();
     sign = pressed;
+    dot = false;
   })
 );
 
 equals.addEventListener("click", () => {
   applyOperators();
   sign = "";
+  dot = false;
 });
 
 posNeg.addEventListener("click", (e) => {
@@ -63,6 +72,7 @@ posNeg.addEventListener("click", (e) => {
     displayDiv.textContent = displayDiv.textContent * -1;
     // temp = round(displayDiv.textContent, 15);
     temp = parseFloat(displayDiv.textContent);
+    expNotation(displayDiv.textContent.length, temp);
   }
   if (array.length === 1 && temp == 0) {
     array.splice(0, 1, array[0] * -1);
@@ -100,6 +110,8 @@ decimal.addEventListener("click", () => {
   if (clicked) {
     displayDiv.textContent = "";
     displayDiv.textContent = displayDiv.textContent + "0.";
+    console.log(displayDiv.textContent);
+    dot = true;
     temp = displayDiv.textContent;
   }
   // if (temp !== 0) {
@@ -115,6 +127,7 @@ clear.addEventListener("click", () => {
   temp = 0;
   dNumber = 0;
   displayDiv.textContent = "0";
+  displayDiv.style.fontSize = "6.94rem";
 });
 
 function applyOperators() {
@@ -133,8 +146,21 @@ function applyOperators() {
 }
 
 function expNotation(length, num) {
+  if (length < 9) {
+    displayDiv.style.fontSize = "6.94rem";
+  }
   if (length > 9) {
+    displayDiv.style.fontSize = "5.94rem";
+  }
+  if (length > 10) {
+    displayDiv.style.fontSize = "4.94rem";
+  }
+  if (length > 12) {
+    displayDiv.style.fontSize = "3.94rem";
+  }
+  if (length > 15) {
     displayDiv.textContent = num.toExponential(3);
+    displayDiv.style.fontSize = "6.94rem";
   }
 }
 
