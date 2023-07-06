@@ -81,12 +81,28 @@ body {
   }
 }
 
-@media screen and (max-width: 380px) {
+@media screen and (max-width: 400px) {
   .button {
     border: 1px solid black;
     /* width: 123px;
     height: 90px; */
     width: 75px;
+    height: 75px;
+    margin: 5px;
+    border-radius: 10px;
+    background-color: #060709;
+    text-align: center;
+    font-size: 4.2rem;
+    user-select: none;
+    color: white;
+  }
+}
+@media screen and (max-width: 369px) {
+  .button {
+    border: 1px solid black;
+    /* width: 123px;
+    height: 90px; */
+    width: 70px;
     height: 75px;
     margin: 5px;
     border-radius: 10px;
