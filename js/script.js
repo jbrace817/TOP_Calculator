@@ -21,10 +21,9 @@ const percent = document.querySelector(".percent");
 const decimal = document.querySelector(".decimal");
 const clear = document.querySelector(".clear");
 
-window.addEventListener("keydown", function (e) {
-  console.log(e.key);
-});
-// window.addEventListener("keydown", displayNum);
+//Event Listeners
+
+//Keyboard support
 window.addEventListener("keydown", function (e) {
   // let pressed;
   if (isFinite(e.key)) {
@@ -35,7 +34,7 @@ window.addEventListener("keydown", function (e) {
     console.log(true);
     decimalBtn();
   }
-  let regex = new RegExp('["*", "+", "-", "/"]');
+  let regex = new RegExp('["*", "+", "\\-", "/"]');
   if (regex.test(e.key)) {
     console.log(true);
     symbolBtn(e);
@@ -45,32 +44,55 @@ window.addEventListener("keydown", function (e) {
     equalBtn();
   }
 });
+
 numbers.forEach((number) => number.addEventListener("click", displayNum));
-// numbers.forEach((number) =>
-//   number.addEventListener("click", (e) => {
-//     let pressed = e.target.textContent;
-//     if (
-//       displayDiv.textContent[0] === "0" &&
-//       !displayDiv.textContent.includes(".")
-//     ) {
-//       displayDiv.textContent = "";
-//     }
-//     if (array.length === 1 && temp === 0 && !dot) {
-//       displayDiv.textContent = "";
-//       clicked = false;
-//     }
-//     if (sign == "" && temp == 0) {
-//       array.splice(0, 1);
-//     }
-//     temp = displayDiv.textContent += pressed;
-//     // temp = temp.substring(0, 15);
-//     // temp = round(temp, 15);
-//     displayDiv.textContent = temp;
-//     temp = parseFloat(temp);
-//     expNotation(displayDiv.textContent.length, temp);
-//     clicked = false;
-//   })
-// );
+
+symbols.forEach((symbol) => symbol.addEventListener("click", symbolBtn));
+
+equals.addEventListener("click", equalBtn);
+
+posNeg.addEventListener("click", (e) => {
+  if (temp !== 0) {
+    displayDiv.textContent = displayDiv.textContent * -1;
+    temp = parseFloat(displayDiv.textContent);
+    expNotation(displayDiv.textContent.length, temp);
+  }
+  if (array.length === 1 && temp == 0) {
+    array.splice(0, 1, array[0] * -1);
+    displayDiv.textContent = displayDiv.textContent * -1;
+    temp = 0;
+  }
+});
+
+percent.addEventListener("click", () => {
+  let stringToNum;
+  if (temp !== 0) {
+    displayDiv.textContent = displayDiv.textContent * 0.01;
+    console.log(displayDiv.textContent.length);
+    temp = parseFloat(displayDiv.textContent);
+  }
+  if (array.length === 1 && temp === 0) {
+    displayDiv.textContent = displayDiv.textContent * 0.01;
+    temp = parseFloat(displayDiv.textContent);
+    array.splice(0, 1, temp);
+    temp = 0;
+  }
+  stringToNum = parseFloat(displayDiv.textContent);
+  expNotation(displayDiv.textContent.length, stringToNum);
+});
+
+decimal.addEventListener("click", decimalBtn);
+
+clear.addEventListener("click", () => {
+  array = [];
+  numToString = "";
+  temp = 0;
+  dNumber = 0;
+  displayDiv.textContent = "0";
+  displayDiv.style.fontSize = "5.80rem";
+});
+
+//Calculator Functions
 
 function displayNum(e) {
   let pressed;
@@ -97,24 +119,12 @@ function displayNum(e) {
     array.splice(0, 1);
   }
   temp = displayDiv.textContent += pressed;
-  // temp = temp.substring(0, 15);
-  // temp = round(temp, 15);
   displayDiv.textContent = temp;
   temp = parseFloat(temp);
   expNotation(displayDiv.textContent.length, temp);
   clicked = false;
 }
 
-// symbols.forEach((symbol) =>
-//   symbol.addEventListener("click", (e) => {
-//     let pressed = e.target.textContent;
-//     applyOperators();
-//     sign = pressed;
-//     dot = false;
-//   })
-// );
-// window.addEventListener("keydown", symbolBtn);
-symbols.forEach((symbol) => symbol.addEventListener("click", symbolBtn));
 function symbolBtn(e) {
   let pressed;
   let regex = new RegExp("[*+-/]");
@@ -130,51 +140,11 @@ function symbolBtn(e) {
   dot = false;
 }
 
-equals.addEventListener("click", equalBtn);
-
 function equalBtn() {
   applyOperators();
   sign = "";
   dot = false;
 }
-
-posNeg.addEventListener("click", (e) => {
-  if (temp !== 0) {
-    displayDiv.textContent = displayDiv.textContent * -1;
-    // temp = round(displayDiv.textContent, 15);
-    temp = parseFloat(displayDiv.textContent);
-    expNotation(displayDiv.textContent.length, temp);
-  }
-  if (array.length === 1 && temp == 0) {
-    array.splice(0, 1, array[0] * -1);
-    displayDiv.textContent = displayDiv.textContent * -1;
-    temp = 0;
-  }
-});
-
-percent.addEventListener("click", () => {
-  let stringToNum;
-  if (temp !== 0) {
-    displayDiv.textContent = displayDiv.textContent * 0.01;
-    console.log(displayDiv.textContent.length);
-
-    // temp = round(displayDiv.textContent, 15);
-    temp = parseFloat(displayDiv.textContent);
-  }
-  if (array.length === 1 && temp === 0) {
-    displayDiv.textContent = displayDiv.textContent * 0.01;
-    temp = parseFloat(displayDiv.textContent);
-    array.splice(0, 1, temp);
-    temp = 0;
-  }
-  stringToNum = parseFloat(displayDiv.textContent);
-  // if (displayDiv.textContent.length > 9) {
-  //   displayDiv.textContent = stringToNum.toExponential(3);
-  // }
-  expNotation(displayDiv.textContent.length, stringToNum);
-});
-
-decimal.addEventListener("click", decimalBtn);
 
 function decimalBtn() {
   if (!displayDiv.textContent.includes(".")) {
@@ -188,15 +158,6 @@ function decimalBtn() {
     temp = displayDiv.textContent;
   }
 }
-
-clear.addEventListener("click", () => {
-  array = [];
-  numToString = "";
-  temp = 0;
-  dNumber = 0;
-  displayDiv.textContent = "0";
-  displayDiv.style.fontSize = "5.80rem";
-});
 
 function applyOperators() {
   if (!clicked) {
@@ -261,10 +222,6 @@ function operate(num1, num2, op) {
       numToString = dNumber.toString();
       console.log("length: " + numToString.length);
       expNotation(numToString.length, dNumber);
-      // if (numToString.length > 9) {
-      //   displayDiv.textContent = dNumber.toExponential(3);
-      // }
-      // dNumber = round(dNumber, 15);
       array.splice(0, 2, dNumber);
       console.log(multiply(num1, num2));
       clicked = false;
