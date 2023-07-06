@@ -22,50 +22,121 @@ const decimal = document.querySelector(".decimal");
 const clear = document.querySelector(".clear");
 
 window.addEventListener("keydown", function (e) {
-  console.log(e);
   console.log(e.key);
 });
+// window.addEventListener("keydown", displayNum);
+window.addEventListener("keydown", function (e) {
+  // let pressed;
+  if (isFinite(e.key)) {
+    console.log(true);
+    displayNum(e);
+  }
+  if (e.key === ".") {
+    console.log(true);
+    decimalBtn();
+  }
+  let regex = new RegExp('["*", "+", "-", "/"]');
+  if (regex.test(e.key)) {
+    console.log(true);
+    symbolBtn(e);
+  }
+  if (e.key === "Enter") {
+    console.log(true);
+    equalBtn();
+  }
+});
+numbers.forEach((number) => number.addEventListener("click", displayNum));
+// numbers.forEach((number) =>
+//   number.addEventListener("click", (e) => {
+//     let pressed = e.target.textContent;
+//     if (
+//       displayDiv.textContent[0] === "0" &&
+//       !displayDiv.textContent.includes(".")
+//     ) {
+//       displayDiv.textContent = "";
+//     }
+//     if (array.length === 1 && temp === 0 && !dot) {
+//       displayDiv.textContent = "";
+//       clicked = false;
+//     }
+//     if (sign == "" && temp == 0) {
+//       array.splice(0, 1);
+//     }
+//     temp = displayDiv.textContent += pressed;
+//     // temp = temp.substring(0, 15);
+//     // temp = round(temp, 15);
+//     displayDiv.textContent = temp;
+//     temp = parseFloat(temp);
+//     expNotation(displayDiv.textContent.length, temp);
+//     clicked = false;
+//   })
+// );
 
-numbers.forEach((number) =>
-  number.addEventListener("click", (e) => {
-    let pressed = e.target.textContent;
-    if (
-      displayDiv.textContent[0] === "0" &&
-      !displayDiv.textContent.includes(".")
-    ) {
-      displayDiv.textContent = "";
+function displayNum(e) {
+  let pressed;
+  if (e.type == "click") {
+    pressed = e.target.textContent;
+  } else {
+    if (isFinite(e.key)) {
+      pressed = e.key;
+    } else {
+      return;
     }
-    if (array.length === 1 && temp === 0 && !dot) {
-      displayDiv.textContent = "";
-      clicked = false;
-    }
-    if (sign == "" && temp == 0) {
-      array.splice(0, 1);
-    }
-    temp = displayDiv.textContent += pressed;
-    // temp = temp.substring(0, 15);
-    // temp = round(temp, 15);
-    displayDiv.textContent = temp;
-    temp = parseFloat(temp);
-    expNotation(displayDiv.textContent.length, temp);
+  }
+  if (
+    displayDiv.textContent[0] === "0" &&
+    !displayDiv.textContent.includes(".")
+  ) {
+    displayDiv.textContent = "";
+  }
+  if (array.length === 1 && temp === 0 && !dot) {
+    displayDiv.textContent = "";
     clicked = false;
-  })
-);
+  }
+  if (sign == "" && temp == 0) {
+    array.splice(0, 1);
+  }
+  temp = displayDiv.textContent += pressed;
+  // temp = temp.substring(0, 15);
+  // temp = round(temp, 15);
+  displayDiv.textContent = temp;
+  temp = parseFloat(temp);
+  expNotation(displayDiv.textContent.length, temp);
+  clicked = false;
+}
 
-symbols.forEach((symbol) =>
-  symbol.addEventListener("click", (e) => {
-    let pressed = e.target.textContent;
-    applyOperators();
-    sign = pressed;
-    dot = false;
-  })
-);
+// symbols.forEach((symbol) =>
+//   symbol.addEventListener("click", (e) => {
+//     let pressed = e.target.textContent;
+//     applyOperators();
+//     sign = pressed;
+//     dot = false;
+//   })
+// );
+// window.addEventListener("keydown", symbolBtn);
+symbols.forEach((symbol) => symbol.addEventListener("click", symbolBtn));
+function symbolBtn(e) {
+  let pressed;
+  let regex = new RegExp("[*+-/]");
+  if (e.type == "click") {
+    pressed = e.target.textContent;
+  } else {
+    if (regex) {
+      pressed = e.key;
+    }
+  }
+  applyOperators();
+  sign = pressed;
+  dot = false;
+}
 
-equals.addEventListener("click", () => {
+equals.addEventListener("click", equalBtn);
+
+function equalBtn() {
   applyOperators();
   sign = "";
   dot = false;
-});
+}
 
 posNeg.addEventListener("click", (e) => {
   if (temp !== 0) {
@@ -103,7 +174,9 @@ percent.addEventListener("click", () => {
   expNotation(displayDiv.textContent.length, stringToNum);
 });
 
-decimal.addEventListener("click", () => {
+decimal.addEventListener("click", decimalBtn);
+
+function decimalBtn() {
   if (!displayDiv.textContent.includes(".")) {
     displayDiv.textContent = displayDiv.textContent + ".";
   }
@@ -114,12 +187,7 @@ decimal.addEventListener("click", () => {
     dot = true;
     temp = displayDiv.textContent;
   }
-  // if (temp !== 0) {
-  //   displayDiv.textContent = displayDiv.textContent + ".";
-  // } else if (displayDiv.textContent[0] === "0") {
-  //   displayDiv.textContent = displayDiv.textContent + ".";
-  // }
-});
+}
 
 clear.addEventListener("click", () => {
   array = [];
