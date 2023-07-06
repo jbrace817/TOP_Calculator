@@ -195,7 +195,7 @@ clear.addEventListener("click", () => {
   temp = 0;
   dNumber = 0;
   displayDiv.textContent = "0";
-  displayDiv.style.fontSize = "6.94rem";
+  displayDiv.style.fontSize = "5.80rem";
 });
 
 function applyOperators() {
@@ -215,20 +215,17 @@ function applyOperators() {
 
 function expNotation(length, num) {
   if (length < 9) {
-    displayDiv.style.fontSize = "6.94rem";
+    displayDiv.style.fontSize = "5.80rem";
   }
   if (length > 9) {
-    displayDiv.style.fontSize = "5.94rem";
-  }
-  if (length > 10) {
-    displayDiv.style.fontSize = "4.94rem";
+    displayDiv.style.fontSize = "4.30rem";
   }
   if (length > 12) {
-    displayDiv.style.fontSize = "3.94rem";
+    displayDiv.style.fontSize = "3.30rem";
   }
   if (length > 15) {
     displayDiv.textContent = num.toExponential(3);
-    displayDiv.style.fontSize = "6.94rem";
+    displayDiv.style.fontSize = "5.80rem";
   }
 }
 
