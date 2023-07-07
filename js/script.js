@@ -89,7 +89,8 @@ clear.addEventListener("click", () => {
   temp = 0;
   dNumber = 0;
   displayDiv.textContent = "0";
-  displayDiv.style.fontSize = "5.80rem";
+  // displayDiv.style.fontSize = "5.80rem";
+  expNotation(displayDiv.textContent.length, displayDiv.textContent);
 });
 
 //Calculator Functions
@@ -175,18 +176,36 @@ function applyOperators() {
 }
 
 function expNotation(length, num) {
-  if (length < 9) {
-    displayDiv.style.fontSize = "5.80rem";
-  }
-  if (length > 9) {
-    displayDiv.style.fontSize = "4.30rem";
-  }
-  if (length > 12) {
-    displayDiv.style.fontSize = "3.30rem";
-  }
-  if (length > 15) {
-    displayDiv.textContent = num.toExponential(3);
-    displayDiv.style.fontSize = "5.80rem";
+  const mediaQuery = window.matchMedia("(max-width: 576px)");
+
+  if (mediaQuery.matches) {
+    if (length < 9) {
+      displayDiv.style.fontSize = "4rem";
+    }
+    if (length > 9) {
+      displayDiv.style.fontSize = "3rem";
+    }
+    if (length > 12) {
+      displayDiv.style.fontSize = "2.4rem";
+    }
+    if (length > 15) {
+      displayDiv.textContent = num.toExponential(3);
+      displayDiv.style.fontSize = "4rem";
+    }
+  } else {
+    if (length < 9) {
+      displayDiv.style.fontSize = "5.80rem";
+    }
+    if (length > 9) {
+      displayDiv.style.fontSize = "4.30rem";
+    }
+    if (length > 12) {
+      displayDiv.style.fontSize = "3.30rem";
+    }
+    if (length > 15) {
+      displayDiv.textContent = num.toExponential(3);
+      displayDiv.style.fontSize = "5.80rem";
+    }
   }
 }
 

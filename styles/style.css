@@ -25,14 +25,12 @@ body {
 .display {
   /* border: 1px solid red; */
   width: 100%;
-  height: 150px;
+  height: 125px;
   margin: 5px;
   text-align: right;
-  /* font-size: 6.94rem; */
   font-size: 5.8rem;
   padding: 0;
   letter-spacing: 0;
-  /* border-radius: 20px; */
   background-color: #060709;
   color: white;
 }
@@ -43,7 +41,7 @@ body {
   flex-wrap: wrap;
   justify-content: center;
   width: 100%;
-  height: 75%;
+  height: 80%;
   margin: 0;
   background-color: #363e3c;
   border-radius: 20px;
@@ -51,8 +49,6 @@ body {
 
 .button {
   border: 1px solid black;
-  /* width: 123px;
-  height: 90px; */
   width: 90px;
   height: 90px;
   margin: 5px;
@@ -67,8 +63,6 @@ body {
 @media screen and (max-width: 576px) {
   .button {
     border: 1px solid black;
-    /* width: 123px;
-    height: 90px; */
     width: 80px;
     height: 80px;
     margin: 5px;
@@ -79,13 +73,24 @@ body {
     user-select: none;
     color: white;
   }
+
+  .display {
+    /* border: 1px solid red; */
+    width: 100%;
+    height: 125px;
+    margin: 5px;
+    text-align: right;
+    font-size: 4rem;
+    padding: 0;
+    letter-spacing: 0;
+    background-color: #060709;
+    color: white;
+  }
 }
 
 @media screen and (max-width: 400px) {
   .button {
     border: 1px solid black;
-    /* width: 123px;
-    height: 90px; */
     width: 75px;
     height: 75px;
     margin: 5px;
@@ -100,8 +105,6 @@ body {
 @media screen and (max-width: 369px) {
   .button {
     border: 1px solid black;
-    /* width: 123px;
-    height: 90px; */
     width: 70px;
     height: 75px;
     margin: 5px;
